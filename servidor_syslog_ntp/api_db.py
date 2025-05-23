@@ -1,12 +1,13 @@
 import pymysql
 from extraccion_de_datos import *
+import os
 
 class ApiDB:
     def __init__(self):
-        self.host = '127.0.0.1'
-        self.user = 'Gabriel'
-        self.password = 'Pepper_926'
-        self.db = 'Proyecto_Redes'
+        self.host = os.environ.get('DB_HOST', 'localhost')
+        self.user = os.environ.get('DB_USER', 'Gabriel')
+        self.password = os.environ.get('DB_PASS', 'Pepper_926')
+        self.db = os.environ.get('DB_NAME', 'Proyecto_Redes')
 
     def get_db_connection(self):
         try:

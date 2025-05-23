@@ -16,5 +16,35 @@ services:
       - db_data:/var/lib/mysql
       - ./init-sql:/docker-entrypoint-initdb.d
 
+  flask-app:
+    build:
+      context: ./servidor_http
+    container_name: flask-redes
+    ports:
+      - "40000:5000"  # Puerto externo 40000 → Puerto Flask interno 5000
+    depends_on:
+      - mysql-db
+    environment:
+      - DB_HOST=mysql-db
+      - DB_NAME=Proyecto_Redes
+      - DB_USER=Gabriel
+      - DB_PASS=Pepper_926
+
+  ntp-syslog-server:
+    build:
+      context: ./servidor_syslog_ntp
+    container_name: ntp_syslog_server
+    ports:
+      - "8514:8514/udp"
+      - "8123:8123/udp"
+    environment:
+      - DB_HOST=mysql-db
+      - DB_NAME=Proyecto_Redes
+      - DB_USER=Gabriel
+      - DB_PASS=Pepper_926
+    depends_on:
+      - mysql-db
+    restart: always
+
 volumes:
   db_data:

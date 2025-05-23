@@ -5,21 +5,16 @@ from APIDB import ApiDBGabriel
 app = Flask(__name__)
 app.secret_key = f'{secrets.token_hex(32)}'  # Genera una clave cada vez que se inicia el servidor.
 #Es necesaria para trabajar con sesiones
+db_conn = ApiDBGabriel()
 
 #Gabriel
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/inicio', methods=['GET', 'POST'])
 def index():
-    session.clear()
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        return render_template('index.html', error = 'Se envio el formulario.')
-
-    return render_template('index.html')
+    return redirect(url_for('logs'))
 
 
 
-@app.route('/logs', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def logs():
     opciones = db_conn.obtener_opciones_logs()
     if session.get('logs'):
@@ -55,5 +50,4 @@ def filtrar_logs():
     return redirect(url_for('logs'))
 
 if __name__ == '__main__':
-    db_conn = ApiDBGabriel()
-    app.run(host='0.0.0.0', port=40000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

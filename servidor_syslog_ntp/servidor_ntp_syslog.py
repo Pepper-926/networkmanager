@@ -79,7 +79,7 @@ def create_ntp_response(data):
 
 
 
-def start_server(host='0.0.0.0', syslog_port=514, ntp_port=123, buffer_size=1048576):
+def start_server(host='0.0.0.0', syslog_port=8514, ntp_port=8123, buffer_size=1048576):
     """
     Inicia el servidor combinado de Syslog y NTP.
     """
