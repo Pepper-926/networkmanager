@@ -1,0 +1,164 @@
+
+!
+! Last configuration change at 08:47:46 CST Mon Nov 25 2024
+!
+version 17.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+!
+hostname RN3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone CST -6 0
+clock summer-time CDT recurring
+!
+!
+!
+!
+!
+!
+!
+ip domain name jaltech.com
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+vtp version 1
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3394701375
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3394701375
+ revocation-check none
+ rsakeypair TP-self-signed-3394701375
+!
+!
+crypto pki certificate chain TP-self-signed-3394701375
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33333934 37303133 3735301E 170D3234 31313235 31333432 
+  34335A17 0D333431 31323531 33343234 335A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 33393437 
+  30313337 35308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 010098E1 0A9751E2 A250FECF BF452F01 8AD9C91B 27CBF95A AD6C00AC 
+  A7CC2FD7 4F00E977 98D6C1A4 2E398FB4 331C74F5 9FAE83B6 1239AC59 3F2A7FFB 
+  028BC768 B4E7BB14 861345E8 64E38CAA 9428859D 21B8A9EC A9786B9E AFBF8315 
+  B508D9C2 7939A752 C5B814C1 EAB8FC81 418B4FF0 360757B8 99B93B6A 145A5C65 
+  27E31BCF C1BD46DD CA399DF7 881D5512 117BFBBF 40D0C46E CE20BCC8 05803621 
+  DE91AD89 CA60837F A977E1E6 61E5B19A 491E1854 1BA68C55 5631F508 A4070481 
+  F384EDB1 59B05401 E94E4119 195DDB62 4EF7EDB5 A8968F11 39E32AAF 1640B34B 
+  2C2C6E8C DAE5FFD2 DAD7CFA2 25CA693B 814CECCD B877BA6F A7C39E5D 1890990C 
+  E729E24B BF390203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 14986F1E 2DA88887 102FDEE3 5134F1BC E6F03709 
+  B8301D06 03551D0E 04160414 986F1E2D A8888710 2FDEE351 34F1BCE6 F03709B8 
+  300D0609 2A864886 F70D0101 05050003 82010100 5ED50668 CB13DB8F 1106A01B 
+  93DC50F6 8287B04F 0BA18851 0C0B5EF9 D6BC34A5 74F0BB7A EFA6767F 03369200 
+  CE5978BE CC240FEA 83D04D0F 1D65D38B D75DF361 A4AB48B1 9B759E18 FCCF2199 
+  8FF67AEB 29E2C841 296DF92F 0869999C 1EB4EA7D FFE588B9 46D54595 A206A418 
+  2BE12973 F345843A F0083B02 B5BE0D57 4E5076B7 E532E914 5DCB767A 2E86C92C 
+  ADF74E7F C04CE70A 8CF2CD3C 1FC0A0DF DB04A0AF D206890D E33D43A0 D30F5AAE 
+  4743CB12 7F93583D 20FB0408 08AA0F06 551AF55F D3AD4544 32398E14 0F837E04 
+  B87F8B73 CA1054CE 7A2CE416 EF5176CE B7E98573 F5A57925 D4997048 487B2DA5 
+  496A07E0 0CC832DE D08B8FA2 88C3E7F6 3D9CAC8F
+  	quit
+!
+!
+license udi pid C8200L-1N-4T sn FJC27491NAS
+memory free low-watermark processor 67708
+!
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+username gmedina privilege 15 secret 9 $9$e9S6j3qVCyi18k$Ll/shmeeGUrRkBTcE4PrUKj43ksLYnF7r32W.Z/YSLI
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 192.168.0.14 255.255.255.252
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 192.168.0.1 255.255.255.252
+ ip hello-interval eigrp 10 10
+ ip hold-time eigrp 10 30
+ negotiation auto
+!
+interface GigabitEthernet0/0/2
+ ip address 192.168.0.6 255.255.255.252
+ ip hello-interval eigrp 10 10
+ ip hold-time eigrp 10 30
+ negotiation auto
+!
+interface GigabitEthernet0/0/3
+ no ip address
+ negotiation auto
+!
+!
+router eigrp 10
+ network 192.168.0.0
+ redistribute static
+ passive-interface GigabitEthernet0/0/0
+!
+no ip http server
+ip http authentication local
+ip http secure-server
+ip forward-protocol nd
+ip route 0.0.0.0 0.0.0.0 192.168.0.13
+ip ssh authentication-retries 2
+ip ssh version 2
+!
+!
+!
+logging host 10.0.20.4
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.0.20.4
+!
+!
+!
+!
+!
+!
+end

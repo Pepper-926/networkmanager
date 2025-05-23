@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-redes
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Pepper_926
+      MYSQL_DATABASE: Proyecto_Redes
+      MYSQL_USER: Gabriel
+      MYSQL_PASSWORD: Pepper_926
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init-sql:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:

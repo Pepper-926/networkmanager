@@ -1,0 +1,276 @@
+
+!
+! Last configuration change at 09:13:50 CST Mon Nov 25 2024 by gmedina
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname SN4
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 9 $9$sw0ZJ8E6KbFFw3$L8.JDW4e35n0nV3rYXUlxJZrxr9MhzmfezVN5.1WFRY
+!
+username gmedina privilege 15 secret 9 $9$3QMArN9U.B5lxL$Erw/nUD59qKtxuUTxiraw8ITl8QEe3SowhhpfA0XNzA
+no aaa new-model
+clock timezone CST -6 0
+switch 1 provision c1000-24t-4g-l
+system mtu routing 1500
+!
+!
+ip dhcp snooping vlan 10-30
+ip dhcp snooping
+ip domain-name jaltech.com
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-529672576
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-529672576
+ revocation-check none
+ rsakeypair TP-self-signed-529672576
+!
+!
+crypto pki certificate chain TP-self-signed-529672576
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 35323936 37323537 36301E17 0D323431 31313932 32313431 
+  395A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3532 39363732 
+  35373630 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  B4E3E923 431F952F FF37A7DE 9F48C684 3E27607E 5090A3AF 2102D72C 3A871F40 
+  7CE333FC 561ED23E 3F1E4705 E435532A 9144B321 28A2475E 5E87694D 4B28E794 
+  C6D8054C 5F3070F2 05A8B158 C932D415 949C4C87 4CB60E18 F58F81BB 1A994C11 
+  7C06DB36 47F1633A 6E833D6D 0ABB0F0E 20C19AB4 E31BFBF9 B270E1AA AA3D18F1 
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D 
+  23041830 168014C6 EE2B94A1 F27242EC E76589CA A43B8928 14C20830 1D060355 
+  1D0E0416 0414C6EE 2B94A1F2 7242ECE7 6589CAA4 3B892814 C208300D 06092A86 
+  4886F70D 01010505 00038181 0065FBE3 353D7637 0D63A7CB 110DDBEF 4E30BEE2 
+  50A099BA 664CBD2C AD6F38B3 52011148 4E7D263D C9C6A864 9B17F98D C05233CD 
+  E43EDE0B 9B7439E0 63E26A19 A693A94B 840F795A C13269EC 54DC1210 9CB4BD34 
+  23905D08 E8AC5C59 9D995E99 EC96628D 7AC52ADC C39FF375 96ADDF7B 9CD8665E 
+  97F9F519 9394B1DC 354833DB 5B
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ ip dhcp snooping trust
+!
+interface Port-channel2
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 20
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 047c.16ac.cdcb
+ switchport port-security
+ no cdp enable
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+ spanning-tree guard root
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 20
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security
+ no cdp enable
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+ spanning-tree guard root
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 40
+ switchport mode access
+ switchport nonegotiate
+ shutdown
+!
+interface GigabitEthernet1/0/21
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/22
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/23
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
+ ip dhcp snooping trust
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 10.0.10.6 255.255.255.0
+!
+ip http server
+ip http secure-server
+ip ssh version 2
+!
+logging host 10.0.20.4
+!
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.0.20.4
+end

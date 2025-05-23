@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Logs - Servidor Syslog</title>
+    <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/logs.css') }}">
+    <!-- Enlace al archivo JavaScript -->
+    <script src="{{ url_for('static', filename='js/logs.js') }}" defer></script>
+</head>
+<body>
+    <h1>Filtrar Logs del Servidor Syslog</h1>
+    <form action="/filtrar_logs" method="GET" onsubmit="validarFormulario(event)">
+        <!-- Hostname -->
+        <label for="hostname">Hostname:</label>
+        <select id="hostname" name="hostname">
+            <option value="" disabled selected>Seleccione un hostname</option>
+            {% for hostname in opciones[0] %}
+                <option value="{{ hostname['HOSTNAME'] }}">{{ hostname['HOSTNAME'] }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- Código Sys -->
+        <label for="codigo_sys">Código Sys:</label>
+        <input type="text" id="codigo_sys" name="codigo_sys" placeholder="Ingrese el código Sys">
+        
+        <!-- Número de Secuencia -->
+        <label for="numero_secuencia">Número de Secuencia:</label>
+        <input type="text" id="numero_secuencia" name="numero_secuencia" placeholder="Ingrese el número de secuencia">
+        
+        <!-- Rango de Fecha y Hora -->
+        <fieldset>
+            <legend>Rango de Fecha y Hora</legend>
+            <label for="fecha_hora_inicio">Desde:</label>
+            <input type="datetime-local" id="fecha_hora_inicio" name="fecha_hora_inicio">
+            
+            <label for="fecha_hora_fin">Hasta:</label>
+            <input type="datetime-local" id="fecha_hora_fin" name="fecha_hora_fin">
+        </fieldset>
+        
+        <!-- Subsistema -->
+        <label for="subsistema">Subsistema:</label>
+        <select id="subsistema" name="subsistema">
+            <option value="" disabled selected>Seleccione un subsistema</option>
+            {% for subsistema in opciones[1] %}
+                <option value="{{ subsistema['SUBSISTEMA'] }}">{{ subsistema['SUBSISTEMA'] }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- Nivel -->
+        <label for="nivel">Nivel:</label>
+        <select id="nivel" name="nivel">
+            <option value="" disabled selected>Seleccione un nivel</option>
+            <option value="0">0 - Emergencia</option>
+            <option value="1">1 - Alerta</option>
+            <option value="2">2 - Crítico</option>
+            <option value="3">3 - Error</option>
+            <option value="4">4 - Advertencia</option>
+            <option value="5">5 - Notificación</option>
+            <option value="6">6 - Información</option>
+            <option value="7">7 - Depuración</option>
+        </select>
+        
+        <!-- Tipo de Evento -->
+        <label for="tipo_evento">Tipo de Evento:</label>
+        <select id="tipo_evento" name="tipo_evento">
+            <option value="" disabled selected>Seleccione un tipo de evento</option>
+            {% for evento in opciones[2] %}
+                <option value="{{ evento['TIPO_DE_EVENTO'] }}">{{ evento['TIPO_DE_EVENTO'] }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- Botón de Enviar -->
+        <button type="submit">Filtrar Logs</button>
+    </form>
+
+    <!-- Espacio para la tabla de logs -->
+    {% if logs %}
+    <h2>Logs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Logs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log['mensaje'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>

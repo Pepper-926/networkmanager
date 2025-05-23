@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Iniciar Sesión</h1>
+    <form action="/" method="post" id="loginForm" onsubmit="disableSubmitButton()">
+      <input type="text" id="username" name="username" placeholder="Usuario" required>
+      <input type="password" id="password" name="password" placeholder="Contraseña" required>
+      <button type="submit" id="loginButton">Ingresar</button>
+      {% if error %}
+      <p style="color: #ff0000; font-family: 'Times New Roman', Times, serif;">{{ error }}</p>
+      {% endif %}
+    </form>
+  </div>
+  <script>
+    function disableSubmitButton() {
+        document.getElementById('loginButton').disabled = true;
+    }
+  </script>
+</body>
+</html>

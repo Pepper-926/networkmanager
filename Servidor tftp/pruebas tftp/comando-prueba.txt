@@ -1,0 +1,1 @@
+tftp -i 127.0.0.1 PUT "C:\Users\gabri\OneDrive\Escritorio\Universidad\Semestre III\Redes II\Proyecto final\Codigos\Servidor tftp\pruebas tftp\running-prueba.txt" SN1.txt

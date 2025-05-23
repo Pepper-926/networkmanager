@@ -1,0 +1,204 @@
+
+!
+! Last configuration change at 08:49:59 CST Mon Nov 25 2024
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname SN2
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 9 $9$KhT995lYWM2Xhz$jlXqysybmK/tpfs4v91Hrk29dyLO.OY5gGYkQwv1isU
+!
+username gmedina privilege 15 secret 9 $9$KtR4myUmo8ldE8$lgacQJuniFJw82ofiy5cSxrDqDqaWRUapbvfE/27RcQ
+no aaa new-model
+clock timezone CST -6 0
+switch 1 provision c1000-24t-4g-l
+system mtu routing 1500
+!
+!
+ip domain-name jaltech.com
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-522313984
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-522313984
+ revocation-check none
+ rsakeypair TP-self-signed-522313984
+!
+!
+crypto pki certificate chain TP-self-signed-522313984
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 35323233 31333938 34301E17 0D323431 31313932 32303934 
+  325A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3532 32333133 
+  39383430 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  D84E805C ABFCB1C3 350C0547 3C95303F 860AEE22 D3767366 4FEDDA36 1980B7B1 
+  1B205409 7F1A9198 862F8B53 F4FA20E2 D809384A 1C49753E FDC24A35 268962D5 
+  DB713AD8 E58D8B52 317F5CC5 790F52B2 8D78AD13 D2DC0CB2 5F44836B 3BE8FEFD 
+  7D06FE18 F20E0962 8E5AB7CF BBE4B847 AC932574 0CCBE4DD 20D825F8 76870F7F 
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D 
+  23041830 1680147C 3FBFF089 941DC83D 7B8B2BDA E28E4B54 DCECF430 1D060355 
+  1D0E0416 04147C3F BFF08994 1DC83D7B 8B2BDAE2 8E4B54DC ECF4300D 06092A86 
+  4886F70D 01010505 00038181 0065A6E9 6E226C9B 7383974D FE67A49C 9C3504E5 
+  3425B347 A3C2C000 19DB94AB DBC83084 7A402FF3 E504BBD0 BE24A95E 0314E40B 
+  301B7A7B 49CFE9C6 3441D12D A3B1F2DA EAA8BC6E 1AD061EC 0B48AF79 6B24F83E 
+  4404FB37 599E1A58 9866B832 5EF09403 1D17472C C7F16441 89EC6760 2266FBCE 
+  50FAE8C1 510588CC 216C26C0 C8
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Port-channel2
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Port-channel3
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface GigabitEthernet1/0/1
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface GigabitEthernet1/0/2
+!
+interface GigabitEthernet1/0/3
+!
+interface GigabitEthernet1/0/4
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/0/20
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 3 mode active
+!
+interface GigabitEthernet1/0/21
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+!
+interface GigabitEthernet1/0/22
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 2 mode active
+!
+interface GigabitEthernet1/0/23
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/24
+ switchport trunk allowed vlan 10-30
+ switchport trunk native vlan 40
+ switchport mode trunk
+ switchport nonegotiate
+ channel-group 1 mode active
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 10.0.10.4 255.255.255.0
+!
+ip default-gateway 10.0.10.7
+ip http server
+ip http secure-server
+ip ssh version 2
+!
+logging host 10.0.20.4
+!
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.0.20.4
+end

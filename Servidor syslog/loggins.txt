@@ -1,0 +1,74 @@
+$udpClient = New-Object System.Net.Sockets.UdpClient
+$server = "127.0.0.1" 
+$port = 514 
+$message = "<189>112: *Nov 22 18:12:09.197: %SYS-5-CONFIG_I: Configured from console by gmedina on vty0
+"
+
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($message)
+$udpClient.Send($bytes, $bytes.Length, $server, $port)
+$udpClient.Close()
+
+
+
+
+/*Probar ntp*/
+w32tm /stripchart /computer:127.0.0.1 /dataonly /samples:5
+
+
+
+$udpClient = New-Object System.Net.Sockets.UdpClient
+$server = "127.0.0.1" 
+$port = 514 
+
+for ($i = 200; $i -lt 300; $i++) {
+    $message = "<187>${i}: *Nov 24 18:57:44.657: %LINK-3-UPDOWN: Interface GigabitEthernet1/0/22, changed state to down 
+"
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($message)
+    $udpClient.Send($bytes, $bytes.Length, $server, $port)
+}
+
+$udpClient.Close()
+
+
+
+# Dirección IP y puerto del servidor Syslog
+$syslogServer = "127.0.0.1"
+$syslogPort = 514
+
+# Lista de logs a enviar
+$logs = @(
+    "<189>95: *Nov 19 22:55:36.168: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/2, changed state to up",
+    "<190>96: *Nov 19 22:55:38.359: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>97: *Nov 19 22:55:52.264: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>98: *Nov 19 22:56:05.571: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>99: *Nov 19 22:56:19.539: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>100: *Nov 19 22:56:34.267: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>101: *Nov 19 22:56:48.734: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>102: *Nov 19 22:57:02.682: %DUAL-6-NBRINFO: EIGRP-IPv4 10: Neighbor 192.168.0.10 (GigabitEthernet0/0/2) is blocked: not on common subnet (192.168.0.6/30)",
+    "<190>88: Nov 22 13:23:49.695: %HSRP-5-STATECHANGE: GigabitEthernet0/0.60 Grp 1 state Standby -> Active",
+    "<189>60: Nov 22 13:27:27.743: %SYS-5-CONFIG_I: Configured from console by gmedina on vty0",
+    "<189>111: *Nov 22 18:12:09.197: %SYS-5-CONFIG_I: Configured from console by gmedina on vty0",
+    "<187>112: *Nov 22 18:12:11.937: %LINK-3-UPDOWN: Interface GigabitEthernet0/0/2, changed state to down",
+    "<189>113: *Nov 22 18:12:11.948: %DUAL-5-NBRCHANGE: EIGRP-IPv4 10: Neighbor 192.168.0.5 (GigabitEthernet0/0/2) is down: interface down",
+    "<189>114: *Nov 22 18:12:12.937: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/2, changed state to down",
+    "<187>115: *Nov 22 18:13:49.950: %LINK-3-UPDOWN: Interface GigabitEthernet0/0/2, changed state to up",
+    "<189>116: *Nov 22 18:13:50.951: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0/2, changed state to up",
+    "<189>117: *Nov 22 18:13:52.783: %DUAL-5-NBRCHANGE: EIGRP-IPv4 10: Neighbor 192.168.0.5 (GigabitEthernet0/0/2) is up: new adjacency",
+    "<189>125: *Nov 22 18:17:06.874: %SYS-5-CONFIG_I: Configured from console by gmedina on vty0",
+    "<190>128: *Nov 22 18:26:22.688: %SYS-6-TTY_EXPIRE_TIMER: (exec timer expired, tty 866), user gmedina",
+    "<190>129: *Nov 22 18:26:22.688: %SYS-6-LOGOUT: User gmedina has exited tty session 866",
+    "<189>55: Nov 22 13:58:15.475: %SYS-5-CONFIG_I: Configured from console by gmedina on vty0",
+    "<187>145: *Nov 22 18:57:35.284: %LINK-3-UPDOWN: Interface GigabitEthernet1/0/23, changed state to down",
+    "<189>127: *Nov 22 18:57:43.655: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/0/22, changed state to down",
+    "<187>129: *Nov 22 18:57:54.698: %LINK-3-UPDOWN: Interface GigabitEthernet1/0/22, changed state to up",
+    "<189>130: *Nov 22 18:57:57.356: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/0/21, changed state to down"
+)
+
+# Función para enviar logs a Syslog usando sockets UDP
+foreach ($log in $logs) {
+    $udpClient = New-Object System.Net.Sockets.UdpClient
+    $data = [System.Text.Encoding]::ASCII.GetBytes($log)
+    $udpClient.Send($data, $data.Length, $syslogServer, $syslogPort)
+    $udpClient.Close()
+    Write-Host "Log enviado: $log"
+}
